@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Weather - <%= shopData.shopName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Weather forecast</h1>
+
+    <!-- Task 4 -->
+    <form method="GET" action="/weather">
+      <p>
+        <label for="city">City:</label>
+        <input
+          id="city"
+          type="text"
+          name="city"
+          value="<%= query %>"
+          required
+        />
+        <input type="submit" value="Get weather" />
+      </p>
+    </form>
+
+    <% if (error) { %>
+      <p class="error"><strong>Error:</strong> <%= error %></p>
+    <% } %>
+
+    <% if (weather) { %>
+      <h2>
+        Current weather for
+        <%= weather.city %>
+        <% if (weather.country) { %>
+          , <%= weather.country %>
+        <% } %>
+      </h2>
+
+      <!-- Task 3 + 5: More human-friendly -->
+      <ul>
+        <li>
+          <strong>Temperature:</strong>
+          <%= weather.temp %> °C
+          (feels like <%= weather.feelsLike %> °C)
+        </li>
+        <li>
+          <strong>Description:</strong>
+          <%= weather.description %>
+        </li>
+        <li>
+          <strong>Humidity:</strong>
+          <%= weather.humidity %>%
+        </li>
+        <li>
+          <strong>Pressure:</strong>
+          <%= weather.pressure %> hPa
+        </li>
+        <li>
+          <strong>Wind:</strong>
+          <%= weather.windSpeed %> m/s
+          <% if (weather.windDirection) { %>
+            at <%= weather.windDirection %>°
+          <% } %>
+        </li>
+      </ul>
+    <% } %>
+
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>

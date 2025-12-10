@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Add Book - <%= shopData.shopName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Add a new book</h1>
+
+    <form method="POST" action="bookadded">
+      <p>Book name: <input id="name" type="text" name="name" required /></p>
+      <p>
+        Price (£):
+        <input
+          id="price"
+          type="number"
+          name="price"
+          min="0"
+          step="0.01"
+          required
+        />
+      </p>
+      <input type="submit" value="Add book" />
+    </form>
+
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: darkcyan;
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: cadetblue;
+}
+
+p,li {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a:link {
+    color: orangered;
+    text-decoration: none;
+    padding:5px;
+  }
+  
+  /* visited link */
+  a:visited {
+    color: tomato;
+    text-decoration: none;
+    padding:5px;
+  }
+  
+  /* mouse over link */
+  a:hover {
+    color: white;
+    text-decoration: none;
+    background-color: orangered;
+    padding:5px;
+  }
+  
+  /* selected link */
+  a:active {
+    color: blue;
+    text-decoration: none;
+    padding:5px;
+  }
+
+  /* Table Styling */
+
+table {
+  width: 70%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+table thead tr {
+  background-color: #f0f0f0;
+  border-bottom: 2px solid #ccc;
+}
+
+table th, table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+table tbody tr:hover {
+  background-color: #f2f2f2;
+}
+
+h1, h2 {
+  font-family: Arial, sans-serif;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+.error {
+  color: red;
+  font-weight: bold;
+}
