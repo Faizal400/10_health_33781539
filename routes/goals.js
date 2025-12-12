@@ -81,7 +81,7 @@ router.post(
   (req, res, next) => {
     const errors = validationResult(req);
 
-    // Pull fields exactly as your DB expects
+  
     const {
       title,
       description,
