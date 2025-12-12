@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Measurements saved - <%= appData.appName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Your measurements have been saved</h1>
+
+    <% if (measurement) { %>
+      <table>
+        <tr>
+          <th>Date</th>
+          <td><%= measurement.recorded_at %></td>
+        </tr>
+        <tr>
+          <th>Height (cm)</th>
+          <td><%= measurement.height_cm || '-' %></td>
+        </tr>
+        <tr>
+          <th>Weight (kg)</th>
+          <td><%= measurement.weight_kg || '-' %></td>
+        </tr>
+        <tr>
+          <th>BMI</th>
+          <td>
+            <% if (measurement.bmi) { %>
+              <%= Number(measurement.bmi).toFixed(1) %>
+            <% } else { %>
+              -
+            <% } %>
+          </td>
+        </tr>
+        <tr>
+          <th>Resting HR</th>
+          <td><%= measurement.resting_hr || '-' %></td>
+        </tr>
+        <tr>
+          <th>BP (sys / dia)</th>
+          <td>
+            <% if (measurement.systolic_bp || measurement.diastolic_bp) { %>
+              <%= measurement.systolic_bp || '?' %> / <%= measurement.diastolic_bp || '?' %>
+            <% } else { %>
+              -
+            <% } %>
+          </td>
+        </tr>
+        <tr>
+          <th>Notes</th>
+          <td><%= measurement.notes || '' %></td>
+        </tr>
+      </table>
+    <% } %>
+
+    <p><a href="/metrics/bodymeasurements">View measurement history</a></p>
+    <p><a href="/metrics/add">Log another measurement</a></p>
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>

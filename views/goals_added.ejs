@@ -1,0 +1,69 @@
+<!-- views/goals_added.ejs -->
+<!doctype html>
+<html>
+  <head>
+    <title>Goal saved - <%= appData.appName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Goal saved ✅</h1>
+
+    <p>Your health target has been saved.</p>
+
+    <h2>Summary</h2>
+    <table border="1" cellpadding="6" cellspacing="0">
+      <tr>
+        <th>Title</th>
+        <td><%= goal && goal.title ? goal.title : 'N/A' %></td>
+      </tr>
+      <tr>
+        <th>Description</th>
+        <td><%= goal && goal.description ? goal.description : 'N/A' %></td>
+      </tr>
+      <tr>
+        <th>Metric</th>
+        <td><%= goal && goal.metric ? goal.metric : 'N/A' %></td>
+      </tr>
+      <tr>
+        <th>Target value</th>
+        <td>
+          <% if (goal && goal.target_value !== undefined && goal.target_value !== null && goal.target_value !== '') { %>
+            <%= goal.target_value %>
+          <% } else { %>
+            N/A
+          <% } %>
+        </td>
+      </tr>
+      <tr>
+        <th>Current value</th>
+        <td>
+          <% if (goal && goal.current_value !== undefined && goal.current_value !== null && goal.current_value !== '') { %>
+            <%= goal.current_value %>
+          <% } else { %>
+            N/A
+          <% } %>
+        </td>
+      </tr>
+      <tr>
+        <th>Deadline</th>
+        <td><%= goal && goal.deadline ? goal.deadline : 'N/A' %></td>
+      </tr>
+      <tr>
+        <th>Completed?</th>
+        <td>
+          <% if (goal && (goal.is_completed == 1 || goal.is_completed === '1' || goal.is_completed === true)) { %>
+            Yes
+          <% } else { %>
+            No
+          <% } %>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      <a href="/goals">View all goals</a> |
+      <a href="/goals/edit">Add another goal</a> |
+      <a href="/">Home</a>
+    </p>
+  </body>
+</html>

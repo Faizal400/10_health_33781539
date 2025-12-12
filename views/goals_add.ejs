@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Set / update health targets - <%= appData.appName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Set or update a health target</h1>
+
+    <% if (errors && errors.length > 0) { %>
+      <div class="error">
+        <h3>There were problems with your submission:</h3>
+        <ul>
+          <% errors.forEach(function(err) { %>
+            <li><%= err.msg %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+
+    <form method="POST" action="/goals/edit">
+      <p>
+        <label for="title">Goal title:</label><br />
+        <input
+          id="title"
+          type="text"
+          name="title"
+          size="40"
+          value="<%= formData && formData.title ? formData.title : '' %>"
+          required
+        />
+        <br />
+        <small>e.g. "Run 30 mins 3x/week" or "Reach 70kg".</small>
+      </p>
+
+      <p>
+        <label for="description">Description (optional):</label><br />
+        <textarea
+          id="description"
+          name="description"
+          rows="3"
+          cols="50"
+        ><%= formData && formData.description ? formData.description : '' %></textarea>
+        <br />
+        <small>More detail about what you’re aiming for.</small>
+      </p>
+
+      <p>
+        <label for="metric">Metric (optional):</label><br />
+        <input
+          id="metric"
+          type="text"
+          name="metric"
+          size="25"
+          value="<%= formData && formData.metric ? formData.metric : '' %>"
+        />
+        <br />
+        <small>e.g. "weight_kg", "steps_per_day", "minutes_per_week".</small>
+      </p>
+
+      <p>
+        <label for="target_value">Target value (optional):</label><br />
+        <input
+          id="target_value"
+          type="number"
+          step="0.1"
+          name="target_value"
+          value="<%= (formData && formData.target_value !== undefined && formData.target_value !== null) ? formData.target_value : '' %>"
+        />
+        <br />
+        <small>e.g. 70, 10000, 30</small>
+      </p>
+
+      <p>
+        <label for="current_value">Current value (optional):</label><br />
+        <input
+          id="current_value"
+          type="number"
+          step="0.1"
+          name="current_value"
+          value="<%= (formData && formData.current_value !== undefined && formData.current_value !== null) ? formData.current_value : '' %>"
+        />
+      </p>
+
+      <p>
+        <label for="deadline">Deadline (optional):</label><br />
+        <input
+          id="deadline"
+          type="date"
+          name="deadline"
+          value="<%= formData && formData.deadline ? formData.deadline : '' %>"
+        />
+      </p>
+
+      <p>
+        <label>
+          <input
+            type="checkbox"
+            name="is_completed"
+            value="1"
+            <%= (formData && (formData.is_completed == 1 || formData.is_completed === '1' || formData.is_completed === true)) ? 'checked' : '' %>
+          />
+          Mark as completed
+        </label>
+      </p>
+
+      <p>
+        <button type="submit">Save target</button>
+      </p>
+    </form>
+
+    <p><a href="/goals">Back to goals list</a></p>
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>

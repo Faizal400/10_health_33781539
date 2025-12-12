@@ -8,11 +8,11 @@ const { check, validationResult } = require('express-validator'); // Lab 8b – 
 const saltRounds = 10;
 // Session-based access control helper (Lab 8a)
 const redirectLogin = (req, res, next) => {
- if (!req.session.userId ) {
- res.redirect('./login') // redirect to the login page
- } else {
- next (); // move to the next middleware function
- }
+  if (!req.session.userId) {
+    res.redirect('./login') // redirect to the login page
+  } else {
+    next(); // move to the next middleware function
+  }
 }
 
 // Registration form
@@ -112,7 +112,7 @@ router.post(
 );
 
 // List users (no passwords shown) - protected
-router.get('/list', redirectLogin, function (req, res, next)  {
+router.get('/list', redirectLogin, function (req, res, next) {
   const sql =
     'SELECT id, username, first, last, email FROM users ORDER BY id';
 
@@ -169,13 +169,17 @@ router.post('/loggedin', (req, res, next) => {
         const message = 'Login successful. Welcome, ' + user.username + '!';
 
         // Save user session here, when login is successful (Lab 8a)
-        req.session.userId = user.username;
+        // Store the NUMERIC id in userId (for per-user data, joins, etc.)
+        req.session.userId = user.id;
+        // Optionally also store username separately for display
+        req.session.username = user.username;
 
         logAudit(username, true, message, req, (logErr) => {
           if (logErr) return next(logErr);
           res.send(message);
         });
       } else {
+
         const message = 'Login failed: incorrect password';
         logAudit(username, false, message, req, (logErr) => {
           if (logErr) return next(logErr);

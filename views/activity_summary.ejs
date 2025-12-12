@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Your activity summary - <%= appData.appName %>
+    </title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+
+<body>
+    <h1>Your activity summary</h1>
+
+    <% if (!summary || !summary.total_sessions) { %>
+        <p>You don't have any activity recorded yet.</p>
+        <% } else { %>
+            <table>
+                <tr>
+                    <th>Total sessions</th>
+                    <td>
+                        <%= summary.total_sessions %>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Total minutes</th>
+                    <td>
+                        <%= summary.total_minutes %>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Average minutes per session</th>
+                    <td>
+                        <% if (summary.avg_minutes !==null && summary.avg_minutes !==undefined) { %>
+                            <%= summary.avg_minutes.toFixed(1) %>
+                                <% } else { %>
+                                    N/A
+                                    <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <th>First activity</th>
+                    <td>
+                        <% if (summary.first_date) { %>
+                            <%= summary.first_date.toISOString().slice(0,10) %>
+                                <% } else { %>
+                                    N/A
+                                    <% } %>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Most recent activity</th>
+                    <td>
+                        <% if (summary.last_date) { %>
+                            <%= summary.last_date.toISOString().slice(0,10) %>
+                                <% } else { %>
+                                    N/A
+                                    <% } %>
+                    </td>
+                </tr>
+
+            </table>
+            <% } %>
+
+                <p><a href="/">Back to home</a></p>
+</body>
+
+</html>

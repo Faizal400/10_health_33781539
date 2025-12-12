@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Activity Search Results</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Activity Search Results</h1>
+
+    <% if (activities.length === 0) { %>
+      <p>No activities match your search.</p>
+    <% } else { %>
+      <table border="1">
+        <tr>
+          <th>Date</th>
+          <th>Activity</th>
+          <th>Duration (min)</th>
+          <th>Intensity</th>
+          <th>Notes</th>
+        </tr>
+        <% activities.forEach(function(row) { %>
+          <tr>
+            <td><%= row.activity_date.toISOString().slice(0,10) %></td>
+            <td><%= row.activity_type %></td>
+            <td><%= row.duration_minutes %></td>
+            <td><%= row.intensity %></td>
+            <td><%= row.notes || '' %></td>
+          </tr>
+        <% }); %>
+      </table>
+    <% } %>
+
+    <p><a href="/activity/search">Back to search</a></p>
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>

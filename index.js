@@ -40,16 +40,14 @@ app.use(
 );
 
 // Define our application-specific data (available in all templates as shopData)
-app.locals.shopData = { shopName: "Bertie's Books" };
+app.locals.appData = { appName: "HealthWise" };
 
 // Define the database connection pool
 const db = mysql.createPool({
-  host: process.env.BB_HOST || process.env.DB_HOST || 'localhost',
-  user: process.env.BB_USER || process.env.DB_USER || 'berties_books_app',
-  password:
-    process.env.BB_PASSWORD || process.env.DB_PASSWORD || 'qwertyuiop',
-  database:
-    process.env.BB_DATABASE || process.env.DB_DATABASE || 'berties_books',
+  host: process.env.HEALTH_HOST || 'localhost',
+  user: process.env.BB_USER || 'health_app',
+  password: process.env.HEALTH_PASSWORD ||  'qwertyuiop',
+  database: process.env.HEALTH_DATABASE || 'health',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -73,12 +71,16 @@ app.use('/', mainRoutes);
 const usersRoutes = require('./routes/users');
 app.use('/users', usersRoutes);
 
-const booksRoutes = require('./routes/books');
-app.use('/books', booksRoutes);
+const activityRoutes = require('./routes/activity');
+app.use('/activity', activityRoutes);
 
-const weatherRoutes = require('./routes/weather');
-app.use('/weather', weatherRoutes);
+const metricRoutes = require('./routes/metrics');
+app.use('/metrics', metricRoutes);
 
+const goalsRoutes = require('./routes/goals');
+app.use('/goals', goalsRoutes);
+
+//OLD
 const apiRoutes = require('./routes/api');
 app.use('/api', apiRoutes);
 

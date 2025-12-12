@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Log Activity</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Log Activity</h1>
+
+    <form method="POST" action="/activity/added">
+      <p>
+        Date:
+        <input type="date" name="activity_date" required />
+      </p>
+
+      <p>
+        Activity type:
+        <input type="text" name="activity_type" required />
+      </p>
+
+      <p>
+        Duration (minutes):
+        <input type="number" name="duration_minutes" min="1" required />
+      </p>
+
+      <p>
+        Intensity:
+        <select name="intensity" required>
+          <option value="">-- Choose one --</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </p>
+
+      <p>
+        Notes:<br />
+        <textarea name="notes" rows="3" cols="40"></textarea>
+      </p>
+
+      <input type="submit" value="Save activity" />
+    </form>
+
+    <p><a href="/activity/search">Search my activities</a></p>
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>

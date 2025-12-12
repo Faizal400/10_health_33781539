@@ -1,223 +1,199 @@
-# Berties Books – Lab 9  
-> *A continuation of Lab 6, Lab 7, & Lab 8*
+# Health & Activity Tracker – Final Lab
 
-Sample code for **Dynamic Web Applications** module.
+> *Dynamic Web Applications – Final Coursework Submission*
 
-Uses **Node.js** with **Express**, **EJS**, **MySQL2**, **request**, **bcryptjs**, **express-session**,  
-`express-validator`, `dotenv`, etc.
+A secure, session-based **health and activity tracking web application**, built using **Node.js**, **Express**, **EJS**, and **MySQL**.
 
-**Author:** Faizal Ali  
+This application allows users to:
+- Register and log in securely
+- Record physical activities
+- View summaries of their activity history
+- Record personal health metrics (e.g. weight, blood pressure)
+- Set and manage personal health goals
+- View **only their own data** (per-user data isolation)
+
+---
+
+## Author Information
+
+**Name:** Faizal Ali  
 **Student ID:** 33781539  
-**Lab 9: Calling APIs (9a) & Providing APIs (9b)**
+**Module:** Dynamic Web Applications  
+**Final Lab Submission**
 
 ---
 
 ## 1. Overview
 
-This lab extends the earlier Bertie’s Books project by introducing **API consumption** (weather)  
-and **API provision** (our own `/api/books` endpoint).
+This application is a continuation and extension of Labs **6–9**, combining:
 
-By the end of Lab 9, the application includes:
+- Database-backed data persistence (MySQL)
+- Secure authentication and authorisation
+- Session-based access control
+- Input validation and sanitisation
+- Per-user data visibility
+- Clear separation of concerns (routes, views, DB)
+- Production-ready install and deployment scripts
 
-### **Lab 9a – Calling APIs**
-- Weather forecast feature at `/weather`
-- API call using the `request` module  
-- Human-friendly weather display (temperature, humidity, wind, etc.)
-- Dynamic city lookup using a form
-- Error handling for invalid locations
-- Weather link added to homepage
-- API key stored securely using `.env`
-
-### **Lab 9b – Providing APIs**
-- New `/api/books` endpoint returning JSON  
-- API can filter by:
-  - **Search keyword** (`?search=word`)
-  - **Price range** (`?minprice=x&maxprice=y`)
-  - **Sorting** (`?sort=name` or `?sort=price`)
-- API publicly available (no authentication required)
-- Fully deployed on VM and runnable via `forever`
-- `links.txt` included for marking
-
-### Security features carried forward from earlier labs:
-- Password hashing (`bcryptjs`)
-- Session-based login & protected routes
-- Input validation and sanitisation (`express-validator`)
-- Audit logging for login attempts  
-- Sanitised + validated registration inputs  
-- Secure environment variables via `.env`
+The system is designed so that **each user can only view and manage their own health data**, satisfying both security and privacy expectations.
 
 ---
 
-## 2. Folder Structure
+## 2. Key Features
+
+### User Accounts & Security
+- Secure registration and login using **bcryptjs**
+- Passwords are **never stored in plaintext**
+- Session management via `express-session`
+- Login audit log recording:
+  - username
+  - success/failure
+  - timestamp
+  - IP address
+  - user agent
+
+### Activity Tracking
+- Log physical activities (type, duration, intensity, notes)
+- Search activities by keyword
+- View activity summaries:
+  - total sessions
+  - total minutes
+  - average duration
+  - first & most recent activity
+
+### Health Metrics
+- Record body measurements (height, weight, HR, BP)
+- Automatic BMI calculation
+- View historical measurement entries
+- Data scoped strictly to the logged-in user
+
+### Health Goals
+- Create personal health goals
+- Set targets, deadlines, notes
+- View goals list with completion status
+- Goals are linked to individual users
+
+---
+
+## 3. Folder Structure
 
 ```text
-berties-books/
+10_health_33781539/
 ├── node_modules/
 ├── public/
 │   └── main.css
 ├── routes/
-│   ├── books.js
 │   ├── main.js
 │   ├── users.js
-│   └── weather.js         # NEW – Lab 9a
-│   └── api.js             # NEW – Lab 9b
+│   ├── activity.js
+│   ├── metrics.js
+│   └── goals.js
 ├── views/
-│   ├── about.ejs
-│   ├── addbook.ejs
-│   ├── audit.ejs
 │   ├── index.ejs
-│   ├── list.ejs
+│   ├── about.ejs
 │   ├── login.ejs
 │   ├── register.ejs
-│   ├── search.ejs
-│   ├── search_results.ejs
 │   ├── users_list.ejs
-│   └── weather.ejs        # NEW – Lab 9a
+│   ├── audit.ejs
+│   ├── activity_add.ejs
+│   ├── activity_added.ejs
+│   ├── activity_search.ejs
+│   ├── activity_results.ejs
+│   ├── activity_summary.ejs
+│   ├── metrics_add.ejs
+│   ├── metrics_added.ejs
+│   ├── metrics_list.ejs
+│   ├── goals_add.ejs
+│   ├── goals_added.ejs
+│   └── goals_list.ejs
 ├── create_db.sql
 ├── insert_test_data.sql
 ├── index.js
 ├── package.json
 ├── .env
-└── README.md
+├── README.md
+├── report.md
+└── links.txt
 ```
----
+## 4. Access Control
 
-## 3. Routes Overview
+The following routes require a logged-in user:
 
-| Route                  | Method | Purpose                                |
-| ---------------------- | ------ | -------------------------------------- |
-| `/`                    | GET    | Home page                              |
-| `/about`               | GET    | About page                             |
-| `/books/search`        | GET    | Search books                           |
-| `/books/search-result` | GET    | Search results                         |
-| `/books/list`          | GET    | List all books                         |
-| `/books/addbook`       | GET    | Add book form                          |
-| `/books/bookadded`     | POST   | Insert new book                        |
-| `/users/register`      | GET    | Registration form                      |
-| `/users/registered`    | POST   | Register user                          |
-| `/users/login`         | GET    | Login form                             |
-| `/users/loggedin`      | POST   | Verify credentials                     |
-| `/users/list`          | GET    | List users                             |
-| `/users/audit`         | GET    | View audit logs                        |
-| `/weather`             | GET    | Weather search form + results (Lab 9a) |
-| `/api/books`           | GET    | JSON API for books (Lab 9b)            |
+- `/activity/*`
+- `/metrics/*`
+- `/goals/*`
+- `/users/list`
+- `/users/audit`
+- `/logout`
 
+Access control is implemented via a reusable `redirectLogin` middleware which checks for a valid session.
 
-### Routes protected by session (redirectLogin):
+## 5. Validation & Sanitisation
+User input is validated and sanitised using:
+- express-validator
+- Server-side checks (length, format, required fields)
+- Sanitisation of text fields to prevent XSS
 
-**Books**
-- `GET /books/list`
-- `GET /books/addbook`
-- `POST /books/bookadded`
+Examples:
+> - Email format validation
+> - Password minimum length
+> - Numeric bounds for health metrics
+> - Date format validation (ISO 8601)
 
-**Users**
-- `GET /users/list`
-- `GET /users/audit`
-
-**Main**
-- `GET /logout`
-
----
-
-## 4. Audit logging
-Every login attempt is recorded:
-
-| Field      | Description               |
-| ---------- | ------------------------- |
-| username   | Username attempted        |
-| success    | 1 (success) or 0 (failed) |
-| message    | Explanation               |
-| ip_address | IP of the client          |
-| user_agent | Browser/device details    |
-| created_at | Timestamp                 |
-
-## Default login (required for marking)
-
-Inserted via ```insert_test_data.sql```:
-```makefile
-Username: gold
-Password: smiths
-```
-Password is inserted as a correct bcryptjs hash.
-
----
-
-## 5. Weather API (Lab 9a)
-Features implemented:
-- Uses OpenWeatherMap API
-- API key stored in .env
-- Uses the required request module
-- Supports:
-  - Default weather view
-  - City search form
-  - Human-readable weather output
-  - Extra weather info (wind speed, humidity)
-  - Full error handling for invalid cities
-
-## 6. ### Base Endpoint (no filters)
-Returns all books.
-
-Search parameter
-> `/api/books?search=world`
-
-Price range
-> `/api/books?minprice=5&maxprice=20`
-
-Sorting
-> `/api/books?sort=name`
-> `/api/books?sort=price`
-
-**API Design Notes**
-- Does not require login (per marking instructions)
-- Returns JSON only
-- Validated + sanitised parameters before querying database
-- Fully error-handled (invalid price ranges, empty results, etc.)
-
-## Setup
-
-### Database setup
-
-**__1️. Create Database__**
-Run inside MySQL:
-```sql
+## 6. Database Setup
+Creating the Database
+```MySQL
 source create_db.sql;
 source insert_test_data.sql;
 ```
-This creates:
-- `berties_books`
-- `books`
+
+This will create:
 - `users`
+- `activity_logs`
+- `health_entries`
+- `health_profiles`
+- `goals`
 - `audit_log`
-Application database user
 
-And includes:
-- `5 book entries`
-- Default user gold / smiths (bcrypt hashed)
-
-**__2. Verify__**
-```sql
-USE berties_books;
-SELECT * FROM books;
+Default Marker Account
+```text
+Username: gold
+Password: smiths
 ```
----
+> The password is stored as a bcrypt hash and works immediately after installation.
 
-### Running the app
+## 7. Installation & Running
+Install dependencies
 ```cmd
 npm install
-npm install express ejs mysql2 bcryptjs dotenv express-session request express-validator express-sanitizer
+```
+
+Run the application
+```cmd
 node index.js
 ```
-### Full list of dependencies used:
-**Core**
-- express – web framework
-- ejs – templating engine
-- mysql2 – MySQL client
-- dotenv – loads `.env` variables
-- express-session - ensures security & removes ability to enter certain links without being logged in
-**Security**
-- bcryptjs – password hashing
-(Older bcrypt versions seem to incompatible or not work with the Goldsmiths VM)
 
----
+The app runs on:
+http://localhost:8000
 
-**To access locally:** http://localhost:8000/
+## 8. Dependencies
+
+**__Core__**
+express
+ejs
+mysql2
+dotenv
+
+**__Security:__**
+- bcryptjs
+- express-session
+- express-validator
+- express-sanitizer
+
+## 9. Notes for Markers
+- Application installs cleanly with npm install
+- Database builds from scratch via SQL scripts
+- All required test data is inserted automatically
+- No hard-coded credentials - but there is a default user "gold" with password "smiths" as requested.
+- Per-user data isolation enforced at query level
+- All pages accessible via homepage navigation

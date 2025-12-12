@@ -1,22 +1,43 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Welcome to <%= shopData.shopName %></title>
-    <link rel="stylesheet" type="text/css" href="/main.css" />
-  </head>
-  <body>
-    <h1>Welcome to <%= shopData.shopName %></h1>
 
-    <ul>
-      <li><a href="/about">About <%= shopData.shopName %></a></li>
-      <li><a href="/books/list">View all books</a></li>
-      <li><a href="/books/addbook">Add a new book</a></li>
-      <li><a href="/books/search">Search for books</a></li>
-      <li><a href="/users/register">Register</a></li>
-      <li><a href="/users/login">Login</a></li>
-      <li><a href="/users/list">List users</a></li>
-      <li><a href="/users/audit">View login audit log</a></li>
-      <li><a href="/weather">Check today’s weather</a></li>
-    </ul>
-  </body>
+<head>
+  <title>Welcome to <%= appData.appName %>
+  </title>
+  <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+
+<body>
+  <h1>Welcome to <%= appData.appName %>
+  </h1>
+  <p>This is the homepage. You can quickly access every part of the app seamlessly below:>
+  <p>
+  <h2>General</h2>
+  <ul>
+    <li><a href="/about">About <%= appData.appName %></a></li>
+    <li><a href="/users/register">Register</a></li>
+    <li><a href="/users/login">Login</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+  <h2>Your health & activity</h2>
+  <ul>
+    <!-- Activity features -->
+    <li><a href="/activity/search">Search your activities</a></li>
+    <li><a href="/activity/add">Log a new activity</a></li>
+    <li><a href="/activity/summary">View your activity summary</a></li>
+
+    <!-- Metrics features -->
+    <li><a href="/metrics/bodymeasurements">View your latest body measurement history</a></li>
+    <li><a href="/metrics/add">Log new body measurements</a></li>
+    <!-- Targets / goals -->
+    <li><a href="/goals">View your health targets</a></li>
+    <li><a href="/goals/edit">Update your targets</a></li>
+  </ul>
+
+  <h2>Admin / marking helpers</h2>
+  <ul>
+    <li><a href="/users/list">List users</a></li>
+    <li><a href="/users/audit">View login audit log</a></li>
+  </ul>
+</body>
 </html>

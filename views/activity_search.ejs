@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Search My Activities</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Search My Activities</h1>
+
+    <form method="GET" action="/activity/results">
+      <p>
+        Keyword in activity type:
+        <input type="text" name="keyword" />
+      </p>
+
+      <p>
+        From date:
+        <input type="date" name="from_date" />
+      </p>
+
+      <p>
+        To date:
+        <input type="date" name="to_date" />
+      </p>
+
+      <p>
+        Minimum duration (minutes):
+        <input type="number" name="min_duration" />
+      </p>
+
+      <input type="submit" value="Search activities" />
+    </form>
+
+    <p><a href="/activity/add">Log a new activity</a></p>
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>

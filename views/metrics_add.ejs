@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Log body measurements - <%= appData.appName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Log new body measurements</h1>
+
+    <% if (errors && errors.length > 0) { %>
+      <div class="error">
+        <h3>There were problems with your submission:</h3>
+        <ul>
+          <% errors.forEach(function(err) { %>
+            <li><%= err.msg %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+
+    <form method="POST" action="/metrics/add">
+      <p>
+        <label for="recorded_at">Date:</label>
+        <input
+          id="recorded_at"
+          type="date"
+          name="recorded_at"
+          value="<%= formData && formData.recorded_at ? formData.recorded_at : '' %>"
+          required
+        />
+      </p>
+
+      <p>
+        <label for="height_cm">Height (cm):</label>
+        <input
+          id="height_cm"
+          type="number"
+          step="0.1"
+          name="height_cm"
+          value="<%= formData && formData.height_cm ? formData.height_cm : '' %>"
+        />
+      </p>
+
+      <p>
+        <label for="weight_kg">Weight (kg):</label>
+        <input
+          id="weight_kg"
+          type="number"
+          step="0.1"
+          name="weight_kg"
+          value="<%= formData && formData.weight_kg ? formData.weight_kg : '' %>"
+        />
+      </p>
+
+      <p>
+        <label for="resting_hr">Resting heart rate (bpm):</label>
+        <input
+          id="resting_hr"
+          type="number"
+          name="resting_hr"
+          value="<%= formData && formData.resting_hr ? formData.resting_hr : '' %>"
+        />
+      </p>
+
+      <p>
+        <label for="systolic_bp">Systolic BP:</label>
+        <input
+          id="systolic_bp"
+          type="number"
+          name="systolic_bp"
+          value="<%= formData && formData.systolic_bp ? formData.systolic_bp : '' %>"
+        />
+      </p>
+
+      <p>
+        <label for="diastolic_bp">Diastolic BP:</label>
+        <input
+          id="diastolic_bp"
+          type="number"
+          name="diastolic_bp"
+          value="<%= formData && formData.diastolic_bp ? formData.diastolic_bp : '' %>"
+        />
+      </p>
+
+      <p>
+        <label for="notes">Notes:</label><br />
+        <textarea
+          id="notes"
+          name="notes"
+          rows="3"
+          cols="40"
+        ><%= formData && formData.notes ? formData.notes : '' %></textarea>
+      </p>
+
+      <p>
+        <button type="submit">Save measurements</button>
+      </p>
+    </form>
+
+    <p><a href="/metrics/bodymeasurements">Back to measurement history</a></p>
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Activity logged – <%= appData.appName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Activity logged</h1>
+
+    <% if (activity) { %>
+      <p>Your activity has been saved successfully.</p>
+
+      <table>
+        <tr>
+          <th>Date</th>
+          <td><%= activity.activity_date %></td>
+        </tr>
+        <tr>
+          <th>Type</th>
+          <td><%= activity.activity_type %></td>
+        </tr>
+        <tr>
+          <th>Duration (minutes)</th>
+          <td><%= activity.duration_minutes %></td>
+        </tr>
+        <tr>
+          <th>Intensity</th>
+          <td><%= activity.intensity %></td>
+        </tr>
+        <tr>
+          <th>Notes</th>
+          <td><%= activity.notes || '—' %></td>
+        </tr>
+      </table>
+    <% } else { %>
+      <p>No activity details available.</p>
+    <% } %>
+
+    <p>
+      <a href="/activity/log">Log another activity</a> |
+      <a href="/activity/summary">View your summary</a> |
+      <a href="/">Back to home</a>
+    </p>
+  </body>
+</html>

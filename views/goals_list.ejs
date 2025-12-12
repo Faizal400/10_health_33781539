@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Your health targets - <%= appData.appName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Your health targets</h1>
+
+    <p><a href="/goals/edit">Add or update a target</a></p>
+
+    <% if (!goals || goals.length === 0) { %>
+      <p>You haven’t set any health targets yet.</p>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Goal</th>
+            <th>Target value</th>
+            <th>Deadline</th>
+            <th>Notes</th>
+            <th>Last updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% goals.forEach(function(g) { %>
+            <tr>
+              <!-- goals table column: title -->
+              <td><%= g.title %></td>
+
+              <!-- goals table column: target_value -->
+              <td><%= g.target_value %></td>
+
+              <!-- goals table column: deadline -->
+              <td>
+                <% if (g.deadline) { %>
+                  <%= g.deadline.toISOString ? g.deadline.toISOString().slice(0, 10) : g.deadline %>
+                <% } else { %>
+                  -
+                <% } %>
+              </td>
+
+              <!-- goals table column: description (use as notes) -->
+              <td><%= g.description || '' %></td>
+
+              <!-- goals table column: created_at (no updated_at in your schema) -->
+              <td>
+                <% if (g.created_at) { %>
+                  <%= g.created_at.toISOString ? g.created_at.toISOString().slice(0, 16).replace('T', ' ') : g.created_at %>
+                <% } else { %>
+                  -
+                <% } %>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } %>
+
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>
