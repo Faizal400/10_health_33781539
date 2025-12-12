@@ -6,7 +6,7 @@ const { body, validationResult } = require('express-validator');
 // Same style as your other redirectLogin helpers
 const redirectLogin = (req, res, next) => {
   if (!req.session || !req.session.userId) {
-    return res.redirect('/users/login');
+    return res.redirect('../users/login');
   }
   next();
 };
@@ -17,7 +17,7 @@ router.get('/bodymeasurements', redirectLogin, (req, res, next) => {
   const userId = req.session.userId;
 
   if (!userId) {
-    return res.redirect('/users/login');
+    return res.redirect('../users/login');
   }
 
   const sql = `
@@ -160,7 +160,7 @@ router.post(
 router.post('/added', redirectLogin, (req, res, next) => {
   const userId = req.session.userId;
   if (!userId) {
-    return res.redirect('/users/login');
+    return res.redirect('../users/login');
   }
 
   const {

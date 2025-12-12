@@ -6,7 +6,7 @@ const { body, validationResult } = require('express-validator');
 // Require login for goals pages
 const redirectLogin = (req, res, next) => {
   if (!req.session || !req.session.userId) {
-    return res.redirect('/users/login');
+    return res.redirect('../users/login');
   }
   next();
 };
