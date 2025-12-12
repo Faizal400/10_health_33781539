@@ -45,7 +45,7 @@ app.locals.appData = { appName: "HealthWise" };
 // Define the database connection pool
 const db = mysql.createPool({
   host: process.env.HEALTH_HOST || 'localhost',
-  user: process.env.BB_USER || 'health_app',
+  user: process.env.HEALTH_USER || 'health_app',
   password: process.env.HEALTH_PASSWORD ||  'qwertyuiop',
   database: process.env.HEALTH_DATABASE || 'health',
   waitForConnections: true,
